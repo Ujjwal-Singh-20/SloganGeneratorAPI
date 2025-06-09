@@ -1,0 +1,12 @@
+# requirements.txt
+gradio>=4.0.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+transformers>=4.0.0
+torch>=1.8.0
+spacy>=3.7.2
+protobuf>=3.20.0  # Critical fix for build_py_2to3 error
+setuptools==57.5.0  # Temporary workaround if needed
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+
+#python-multipart
