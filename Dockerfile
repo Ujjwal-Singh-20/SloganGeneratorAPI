@@ -26,8 +26,9 @@ RUN chmod -R 755 /app
 
 EXPOSE 7860
 
-# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
-CMD ["uvicorn", "main:app", "--host", "127.0.0.1", "--port", "7860"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+
+#CMD ["uvicorn", "main:app", "--host", "127.0.0.1", "--port", "7860"]
 
 # FROM python:3.10-slim
 
