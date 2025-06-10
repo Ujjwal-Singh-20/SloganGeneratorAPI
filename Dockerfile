@@ -24,10 +24,10 @@ COPY special_tokens_map.json .
 # Fix permissions
 RUN chmod -R 755 /app
 
-EXPOSE 7860
+# EXPOSE 7860
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
-
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "main:app"]
 
 # FROM python:3.10-slim
 
