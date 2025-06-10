@@ -22,7 +22,7 @@ COPY generation_config.json .
 COPY special_tokens_map.json .
 
 # Fix permissions
-RUN chmod -R 755 /
+RUN chmod -R 755 /app
 
 EXPOSE 7860
 
