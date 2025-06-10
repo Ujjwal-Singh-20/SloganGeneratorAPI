@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -6,6 +5,7 @@ from typing import Optional
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, pipeline
 import torch
 import spacy
+from functools import lru_cache
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -28,16 +28,24 @@ class SloganRequest(BaseModel):
     num: Optional[int] = 5
     liked_slogan: Optional[str] = None
 
-# Load models
-nlp = spacy.load("en_core_web_sm")
-model = GPT2LMHeadModel.from_pretrained("./") #slogan_generator_medium")
-tokenizer = GPT2Tokenizer.from_pretrained("./") #slogan_generator_medium")
+# Cached model loading
+@lru_cache(maxsize=1)
+def load_models():
+    model = GPT2LMHeadModel.from_pretrained("./")
+    tokenizer = GPT2Tokenizer.from_pretrained("./")
+    return model, tokenizer
+
+model, tokenizer = load_models()
+
 generator = pipeline(
     "text-generation",
     model=model,
     tokenizer=tokenizer,
     device=0 if torch.cuda.is_available() else -1
 )
+
+# Load spaCy model
+nlp = spacy.load("en_core_web_sm")
 
 # Tone presets
 TONE_PRESETS = {
@@ -58,7 +66,6 @@ def summarize_description(text: str) -> str:
 def read_root():
     return {"message": "Welcome to Slogan Generator API. Use POST / to generate slogans."}
 
-# @app.post("/generate-slogans")
 @app.post("/")
 async def generate_slogans(request: SloganRequest):
     try:
